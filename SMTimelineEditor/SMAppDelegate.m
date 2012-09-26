@@ -27,8 +27,16 @@
     // Insert code here to initialize your application
     [self startSynchronizing];
     
+    self.tableScrollView.hasHorizontalRuler = YES;
+//    self.tableScrollView.horizontalRulerView.reservedThicknessForAccessoryView = 0.0f;
+    self.tableScrollView.horizontalRulerView.reservedThicknessForMarkers = 0.0f;
+    self.tableScrollView.rulersVisible = YES;
+    NSLog(@"height=%f", self.tableScrollView.horizontalRulerView.frame.size.height);
+    
     NSLog(@"Outline Scroll View: %p", self.outlineScrollView);
     NSLog(@"Table Scroll View: %p", self.tableScrollView);
+    
+//    [self.table sizeToFit];
     
     NSMutableArray *elements = [NSMutableArray arrayWithCapacity:3];
     
@@ -107,6 +115,12 @@
     return element.name;
 }
 
+- (CGFloat)tableView:(NSTableView *)tableView sizeToFitWidthOfColumn:(NSInteger)column {
+    NSLog(@"sizeToFitWidthOfColumn: %li", column);
+    return 2000.0f;
+}
+
+
 #pragma mark - Scroll view
 
 - (void)startSynchronizing {
@@ -155,7 +169,6 @@
     // get the changed content view from the notification
     NSClipView *changedContentView = [notification object];
     NSScrollView *changedScrollView = [changedContentView.documentView enclosingScrollView];
-    NSLog(@"Changed scroll view: %p", changedScrollView);
     
     NSScrollView *scrollView = nil;
     if (changedScrollView == self.outlineScrollView) {
@@ -179,7 +192,7 @@
     
     // if our synced position is different from our current
     // position, reposition our content view
-    if (!NSEqualPoints(curOffset, changedBoundsOrigin))
+    if (!NSEqualPoints(curOffset, newOffset))
     {
         // note that a scroll view watching this one will
         // get notified here
