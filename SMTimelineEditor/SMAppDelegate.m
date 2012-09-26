@@ -9,6 +9,12 @@
 #import "SMAppDelegate.h"
 #import "SMElement.h"
 
+
+static NSString * const SMElementPropertyX = @"SMElementPropertyX";
+static NSString * const SMElementPropertyY = @"SMElementPropertyY";
+static NSString * const SMElementPropertyWidth = @"SMElementPropertyWidth";
+static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
+
 @interface SMAppDelegate ()
 
 @property (weak) IBOutlet NSScrollView *outlineScrollView;
@@ -17,6 +23,7 @@
 @property (weak) IBOutlet NSTableView *table;
 
 @property (strong, nonatomic) NSArray *elements;
+@property (strong, nonatomic) NSMutableIndexSet *expandedElements;
 
 @end
 
@@ -54,8 +61,70 @@
     
     self.elements = elements;
     
+    self.expandedElements = [NSMutableIndexSet indexSet];
+    
     [self.outline reloadData];
     [self.table reloadData];
+}
+
+#pragma mark - Private methods
+
+- (NSUInteger)numberOfRows {
+    NSLog(@"###############################");
+    NSUInteger numberOfRows = 0;
+    for (SMElement *element in self.elements) {
+        numberOfRows++;
+        if ([self.outline isItemExpanded:element]) {
+            numberOfRows += 4;
+        }
+    }
+    NSLog(@"numberOfRows: %li", numberOfRows);
+    return numberOfRows;
+}
+
+- (NSIndexPath *)indexPathForRow:(NSUInteger)rowIndex {
+    NSUInteger elementIndex = 0;
+    do {
+        SMElement *element = [self.elements objectAtIndex:elementIndex];
+        
+        NSUInteger numberOfRows = 1;
+        if ([self.outline isItemExpanded:element]) {
+            numberOfRows = 5;
+        }
+        NSLog(@"numberOfRows: %li", numberOfRows);
+        
+        if (rowIndex < numberOfRows) {
+            NSLog(@"index: %li", rowIndex);
+            NSUInteger indexes[] = {elementIndex,rowIndex};
+            return [NSIndexPath indexPathWithIndexes:indexes length:2];
+        }
+        
+        rowIndex -= numberOfRows;
+        elementIndex ++;
+        NSLog(@"rowIndex: %li", rowIndex);
+    } while (YES);
+    return nil;
+}
+
+- (NSUInteger)rowForIndexPath:(NSIndexPath *)indexPath {
+    NSParameterAssert(indexPath.length == 1 || indexPath.length == 2);
+    NSUInteger elementIndex = [indexPath indexAtPosition:0];
+    NSUInteger rowIndex = 0;
+    for (NSUInteger actualElementIndex = 0; actualElementIndex < [self.elements count]; actualElementIndex++) {
+        if (actualElementIndex == elementIndex) {
+            if ([indexPath length] == 2) {
+                return rowIndex + [indexPath indexAtPosition:1];
+            } else {
+                return rowIndex;
+            }
+        }
+        rowIndex++;
+        SMElement *element = [self.elements objectAtIndex:actualElementIndex];
+        if ([self.outline isItemExpanded:element]) {
+            rowIndex += 4;
+        }
+    }
+    return NSNotFound;
 }
 
 #pragma mark - Outline data source
@@ -64,11 +133,17 @@
     if (!item) {
         return [self.elements count];
     }
+    if ([item isKindOfClass:[SMElement class]]) {
+        return 4;
+    }
     return 0;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
     if (!item) {
+        return YES;
+    }
+    if ([item isKindOfClass:[SMElement class]]) {
         return YES;
     }
     return NO;
@@ -79,6 +154,25 @@
     if (!item) {
         return [self.elements objectAtIndex:index];
     }
+    if ([item isKindOfClass:[SMElement class]]) {
+        switch (index) {
+            case 0:
+                return SMElementPropertyX;
+                break;
+            case 1:
+                return SMElementPropertyY;
+                break;
+            case 2:
+                return SMElementPropertyWidth;
+                break;
+            case 3:
+                return SMElementPropertyHeight;
+                break;
+                
+            default:
+                break;
+        }
+    }
     return nil;
 }
 
@@ -87,13 +181,51 @@
         SMElement *element = item;
         return element.name;
     }
+    if (item == SMElementPropertyX) {
+        return @"Property X";
+    }
+    if (item == SMElementPropertyY) {
+        return @"Property Y";
+    }
+    if (item == SMElementPropertyWidth) {
+        return @"Property Width";
+    }
+    if (item == SMElementPropertyHeight) {
+        return @"Property Height";
+    }
     return nil;
+}
+
+- (void)outlineViewItemDidExpand:(NSNotification *)notification {
+    NSLog(@"Did expand: %@", notification);
+//    [self.table reloadData];
+    SMElement *element = [notification.userInfo objectForKey:@"NSObject"];
+    NSUInteger elementIndex = [self.elements indexOfObject:element];
+    NSUInteger rowIndex = [self rowForIndexPath:[NSIndexPath indexPathWithIndex:elementIndex]];
+    
+    [self.table beginUpdates];
+    [self.table insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(rowIndex + 1, 4)] withAnimation:NSTableViewAnimationSlideDown];
+    [self.table endUpdates];
+}
+
+- (void)outlineViewItemDidCollapse:(NSNotification *)notification {
+    NSLog(@"Did collapse: %@", notification);
+//    [self.table reloadData];
+    SMElement *element = [notification.userInfo objectForKey:@"NSObject"];
+    NSUInteger elementIndex = [self.elements indexOfObject:element];
+    NSUInteger rowIndex = [self rowForIndexPath:[NSIndexPath indexPathWithIndex:elementIndex]];
+    
+    [self.table beginUpdates];
+    [self.table removeRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(rowIndex + 1, 4)] withAnimation:NSTableViewAnimationSlideUp];
+    [self.table endUpdates];
 }
 
 #pragma mark - Table data source
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return [self.elements count];
+    NSUInteger numberOfRows = [self numberOfRows];
+    NSLog(@"numberOfRowsInTableView: %li", numberOfRows);
+    return numberOfRows;
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
@@ -111,8 +243,52 @@
 //        returnValue = theName;
 //    }
     
-    SMElement *element = [self.elements objectAtIndex:rowIndex];
-    return element.name;
+    NSLog(@"========================");
+    NSLog(@"Row index: %li", rowIndex);
+    
+    NSUInteger elementIndex = 0;
+    do {
+        NSLog(@"elementIndex=%li", elementIndex);
+        SMElement *element = [self.elements objectAtIndex:elementIndex];
+        
+        NSUInteger numberOfRows = 1;
+        if ([self.outline isItemExpanded:element]) {
+            numberOfRows = 5;
+        }
+        NSLog(@"numberOfRows: %li", numberOfRows);
+        
+        if (rowIndex < numberOfRows) {
+            NSLog(@"index: %li", rowIndex);
+            switch (rowIndex) {
+                case 0:
+                    return element.name;
+                    break;
+                case 1:
+                    return @"X=1";
+                    break;
+                case 2:
+                    return @"Y=2";
+                    break;
+                case 3:
+                    return @"Width=3";
+                    break;
+                case 4:
+                    return @"Height=4";
+                    break;
+                    
+                default:
+                    break;
+            }
+            break;
+        }
+        
+        rowIndex -= numberOfRows;
+        elementIndex ++;
+        NSLog(@"rowIndex: %li", rowIndex);
+    } while (YES);
+//    SMElement *element = [self.elements objectAtIndex:rowIndex];
+//    return element.name;
+    return nil;
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView sizeToFitWidthOfColumn:(NSInteger)column {
