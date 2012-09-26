@@ -13,6 +13,7 @@
 		766451181613304D005FBF58 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 766451161613304D005FBF58 /* Credits.rtf */; };
 		7664511B1613304D005FBF58 /* SMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7664511A1613304D005FBF58 /* SMAppDelegate.m */; };
 		7664511E1613304E005FBF58 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7664511C1613304E005FBF58 /* MainMenu.xib */; };
+		76645126161332E2005FBF58 /* SMElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 76645125161332E2005FBF58 /* SMElement.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		766451191613304D005FBF58 /* SMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMAppDelegate.h; sourceTree = "<group>"; };
 		7664511A1613304D005FBF58 /* SMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMAppDelegate.m; sourceTree = "<group>"; };
 		7664511D1613304E005FBF58 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		76645124161332E2005FBF58 /* SMElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMElement.h; sourceTree = "<group>"; };
+		76645125161332E2005FBF58 /* SMElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMElement.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +89,8 @@
 				7664511A1613304D005FBF58 /* SMAppDelegate.m */,
 				7664511C1613304E005FBF58 /* MainMenu.xib */,
 				7664510E1613304D005FBF58 /* Supporting Files */,
+				76645124161332E2005FBF58 /* SMElement.h */,
+				76645125161332E2005FBF58 /* SMElement.m */,
 			);
 			path = SMTimelineEditor;
 			sourceTree = "<group>";
@@ -169,6 +174,7 @@
 			files = (
 				766451141613304D005FBF58 /* main.m in Sources */,
 				7664511B1613304D005FBF58 /* SMAppDelegate.m in Sources */,
+				76645126161332E2005FBF58 /* SMElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
