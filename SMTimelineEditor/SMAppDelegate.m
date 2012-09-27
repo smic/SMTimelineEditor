@@ -222,6 +222,12 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
     [self.table endUpdates];
 }
 
+- (void)outlineViewSelectionIsChanging:(NSNotification *)notification {
+    NSLog(@"Selection Did change: %@", notification);
+    NSIndexSet *selectedRowIndexes = self.outline.selectedRowIndexes;
+    [self.table selectRowIndexes:selectedRowIndexes byExtendingSelection:NO];
+}
+
 #pragma mark - Table data source
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
@@ -278,6 +284,11 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
     return 2000.0f;
 }
 
+- (void)tableViewSelectionIsChanging:(NSNotification *)notification {
+    NSLog(@"Selection Did change: %@", notification);
+    NSIndexSet *selectedRowIndexes = self.table.selectedRowIndexes;
+    [self.outline selectRowIndexes:selectedRowIndexes byExtendingSelection:NO];
+}
 
 #pragma mark - Scroll view
 
