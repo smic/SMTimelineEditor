@@ -11,5 +11,6 @@
 @interface SMElement : NSObject
 
 @property (copy, nonatomic) NSString *name;
+@property (strong, nonatomic) NSArray *timelines;
 
 @end

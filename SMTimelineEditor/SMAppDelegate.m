@@ -8,6 +8,8 @@
 
 #import "SMAppDelegate.h"
 #import "SMElement.h"
+#import "SMTimeline.h"
+#import "SMTimelineSegment.h"
 
 
 static NSString * const SMElementPropertyX = @"SMElementPropertyX";
@@ -51,6 +53,34 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
     element1.name = @"Element 1";
     [elements addObject:element1];
     
+    SMTimeline *timeline1 = [[SMTimeline alloc] init];
+    timeline1.propertyName = @"X";
+    
+    SMTimelineSegment *segment1 = [[SMTimelineSegment alloc] init];
+    segment1.position = 100;
+    segment1.duration = 100;
+    
+    SMTimelineSegment *segment2 = [[SMTimelineSegment alloc] init];
+    segment2.position = 250;
+    segment2.duration = 100;
+    
+    timeline1.segments = @[segment1, segment2];
+    
+    SMTimeline *timeline2 = [[SMTimeline alloc] init];
+    timeline2.propertyName = @"Y";
+    
+    SMTimelineSegment *segment3 = [[SMTimelineSegment alloc] init];
+    segment3.position = 100;
+    segment3.duration = 100;
+    
+    SMTimelineSegment *segment4 = [[SMTimelineSegment alloc] init];
+    segment4.position = 250;
+    segment4.duration = 100;
+    
+    timeline2.segments = @[segment3, segment4];
+    
+    element1.timelines = @[timeline1, timeline2];
+    
     SMElement *element2 = [[SMElement alloc] init];
     element2.name = @"Element 2";
     [elements addObject:element2];
@@ -74,7 +104,8 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
     for (NSInteger elementIndex = [self.elements count] - 1; elementIndex >= 0; elementIndex--) {
         numberOfRows++;
         if ([self.expandedElements containsIndex:elementIndex]) {
-            numberOfRows += 4;
+            SMElement *element = [self.elements objectAtIndex:elementIndex];
+            numberOfRows += [element.timelines count];
         }
     }
     return numberOfRows;
@@ -85,7 +116,8 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
     do {
         NSUInteger numberOfRows = 1;
         if ([self.expandedElements containsIndex:elementIndex]) {
-            numberOfRows = 5;
+            SMElement *element = [self.elements objectAtIndex:elementIndex];
+            numberOfRows += [element.timelines count];
         }
         
         if (rowIndex < numberOfRows) {
@@ -117,7 +149,8 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
         }
         rowIndex++;
         if ([self.expandedElements containsIndex:actualElementIndex]) {
-            rowIndex += 4;
+            SMElement *element = [self.elements objectAtIndex:actualElementIndex];
+            rowIndex += [element.timelines count];
         }
     }
     return NSNotFound;
@@ -130,7 +163,8 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
         return [self.elements count];
     }
     if ([item isKindOfClass:[SMElement class]]) {
-        return 4;
+        SMElement *element = (SMElement *)item;
+        return [element.timelines count];
     }
     return 0;
 }
@@ -140,7 +174,8 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
         return YES;
     }
     if ([item isKindOfClass:[SMElement class]]) {
-        return YES;
+        SMElement *element = (SMElement *)item;
+        return [element.timelines count] > 0;
     }
     return NO;
 }
@@ -151,23 +186,25 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
         return [self.elements objectAtIndex:index];
     }
     if ([item isKindOfClass:[SMElement class]]) {
-        switch (index) {
-            case 0:
-                return SMElementPropertyX;
-                break;
-            case 1:
-                return SMElementPropertyY;
-                break;
-            case 2:
-                return SMElementPropertyWidth;
-                break;
-            case 3:
-                return SMElementPropertyHeight;
-                break;
-                
-            default:
-                break;
-        }
+        SMElement *element = (SMElement *)item;
+        return [element.timelines objectAtIndex:index];
+//        switch (index) {
+//            case 0:
+//                return SMElementPropertyX;
+//                break;
+//            case 1:
+//                return SMElementPropertyY;
+//                break;
+//            case 2:
+//                return SMElementPropertyWidth;
+//                break;
+//            case 3:
+//                return SMElementPropertyHeight;
+//                break;
+//                
+//            default:
+//                break;
+//        }
     }
     return nil;
 }
@@ -177,18 +214,23 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
         SMElement *element = item;
         return element.name;
     }
-    if (item == SMElementPropertyX) {
-        return @"Property X";
+    if ([item isKindOfClass:[SMTimeline class]]) {
+        SMTimeline *timeline = item;
+        return timeline.propertyName;
     }
-    if (item == SMElementPropertyY) {
-        return @"Property Y";
-    }
-    if (item == SMElementPropertyWidth) {
-        return @"Property Width";
-    }
-    if (item == SMElementPropertyHeight) {
-        return @"Property Height";
-    }
+//
+//    if (item == SMElementPropertyX) {
+//        return @"Property X";
+//    }
+//    if (item == SMElementPropertyY) {
+//        return @"Property Y";
+//    }
+//    if (item == SMElementPropertyWidth) {
+//        return @"Property Width";
+//    }
+//    if (item == SMElementPropertyHeight) {
+//        return @"Property Height";
+//    }
     return nil;
 }
 
@@ -252,28 +294,32 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
     NSIndexPath *indexPath = [self indexPathForRow:rowIndex];
     if ([indexPath length] == 1) {
         NSUInteger elementIndex = [indexPath indexAtPosition:0];
-        SMElement *element = [self.elements objectAtIndex:elementIndex];
-        return element.name;
+//        SMElement *element = [self.elements objectAtIndex:elementIndex];
+//        return element.name;
+        return nil;
     }
     if ([indexPath length] == 2) {
+        NSUInteger elementIndex = [indexPath indexAtPosition:0];
         NSUInteger propertyIndex = [indexPath indexAtPosition:1];
-        switch (propertyIndex) {
-            case 0:
-                return @"X=1";
-                break;
-            case 1:
-                return @"Y=2";
-                break;
-            case 2:
-                return @"Width=3";
-                break;
-            case 3:
-                return @"Height=4";
-                break;
-                
-            default:
-                break;
-        }
+        SMElement *element = [self.elements objectAtIndex:elementIndex];
+        return [element.timelines objectAtIndex:propertyIndex];
+//        switch (propertyIndex) {
+//            case 0:
+//                return @"X=1";
+//                break;
+//            case 1:
+//                return @"Y=2";
+//                break;
+//            case 2:
+//                return @"Width=3";
+//                break;
+//            case 3:
+//                return @"Height=4";
+//                break;
+//                
+//            default:
+//                break;
+//        }
     }
 
     return nil;
