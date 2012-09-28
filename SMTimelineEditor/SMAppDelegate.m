@@ -36,11 +36,25 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
     // Insert code here to initialize your application
     [self startSynchronizing];
     
+    [NSRulerView registerUnitWithName:@"seconds" abbreviation:@"s" unitToPointsConversionFactor:100 stepUpCycle:@[@10.0f] stepDownCycle:@[@0.5f, @0.1f]];
+    
     self.tableScrollView.hasHorizontalRuler = YES;
-//    self.tableScrollView.horizontalRulerView.reservedThicknessForAccessoryView = 0.0f;
-    self.tableScrollView.horizontalRulerView.reservedThicknessForMarkers = 0.0f;
     self.tableScrollView.rulersVisible = YES;
-    NSLog(@"height=%f", self.tableScrollView.horizontalRulerView.frame.size.height);
+    
+    NSRulerView *rulerView = self.tableScrollView.horizontalRulerView;
+//    rulerView.reservedThicknessForAccessoryView = 0.0f;
+    rulerView.reservedThicknessForMarkers = 12.0f;
+    rulerView.ruleThickness = 17.0f;
+    
+    NSLog(@"height=%f", rulerView.frame.size.height);
+    
+    rulerView.measurementUnits = @"seconds";
+    rulerView.originOffset = 2.0f + 5.0f;
+    
+    [rulerView setClientView:self.tableScrollView.documentView];
+    NSRulerMarker *marker = [[NSRulerMarker alloc] initWithRulerView:rulerView markerLocation:100 image:[NSImage imageNamed:@"TimeMarker.png"] imageOrigin:NSMakePoint(6.0f, 0.0f)];
+    marker.movable = YES;
+    [rulerView addMarker:marker];
     
     NSLog(@"Outline Scroll View: %p", self.outlineScrollView);
     NSLog(@"Table Scroll View: %p", self.tableScrollView);
