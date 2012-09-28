@@ -40,7 +40,7 @@
         rect.origin.x += segment.position;
         rect.size.width = segment.duration;
         
-        {
+        if (segment.duration > 0) {
             [[NSColor redColor] setFill];
             NSRectFill(rect);
             [[NSColor blackColor] set];
@@ -61,7 +61,7 @@
             [path stroke];
             [NSGraphicsContext restoreGraphicsState];
         }
-        {
+        if (segment.duration > 0) {
             NSPoint point = NSMakePoint(NSMaxX(rect), NSMidY(rect));
             [NSGraphicsContext saveGraphicsState];
             NSAffineTransform* transform = [NSAffineTransform transform];
@@ -121,15 +121,17 @@
             continue;
         }
         
+        CGFloat location = currentPoint.x - 7.0f;
+        
         if (selectedPosition) {
-            if (selectedSegment.position + dx >= 0 && selectedSegment.duration - dx >= 0) {
-                selectedSegment.position += dx;
-                selectedSegment.duration -= dx;
-            }
+            location = MAX(0, MIN(selectedSegment.position + selectedSegment.duration, location));
+
+            selectedSegment.duration = selectedSegment.position + selectedSegment.duration - location;
+            selectedSegment.position = location;
         } else {
-            if (selectedSegment.duration + dx >= 0 && selectedSegment.position + selectedSegment.duration + dx < 2000) {
-                selectedSegment.duration += dx;
-            }
+            location = MAX(selectedSegment.position, MIN(2000, location));
+
+            selectedSegment.duration = location - selectedSegment.position;
         }
         
 		point = currentPoint;
