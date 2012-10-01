@@ -11,3 +11,9 @@
 @interface SMTimelineTableView : NSTableView
 
 @end
+
+@interface NSObject (SMTimelineTableViewDelegate)
+
+- (void)timelineTableView:(SMTimelineTableView *)view didChangeTime:(NSTimeInterval)time;
+
+@end

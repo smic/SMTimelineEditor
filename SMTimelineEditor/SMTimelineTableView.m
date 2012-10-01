@@ -7,6 +7,7 @@
 //
 
 #import "SMTimelineTableView.h"
+#import "SMGuideView.h"
 
 @implementation SMTimelineTableView
 
@@ -15,7 +16,33 @@
     
     location = MAX(location, rulerView.originOffset);
     
+    NSTimeInterval time = location;
+    [(id)self.delegate timelineTableView:self didChangeTime:time];
+    
     return location;
 }
+
+//- (void)rulerView:(NSRulerView *)rulerView didMoveMarker:(NSRulerMarker *)marker {
+//    
+//}
+
+//- (void)awakeFromNib {
+//    SMGuideView *guideView = [[SMGuideView alloc] initWithFrame:self.bounds];
+//    guideView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+//    [self addSubview:guideView];
+//}
+
+//- (void)drawRect:(NSRect)dirtyRect {
+//    [super drawRect:dirtyRect];
+//    
+//    // Drawing code here.
+//    static NSColor *color = nil;
+//    if (!color) {
+//        color = [NSColor colorWithCalibratedRed:0.0f green:1.0f blue:0.0f alpha:0.4f];
+//    }
+//    [color set];
+//    NSRectFill(dirtyRect);
+//}
+
 
 @end

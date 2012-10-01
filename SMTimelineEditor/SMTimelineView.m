@@ -25,13 +25,13 @@
 
 - (void)drawRect:(NSRect)dirtyRect {
     // Drawing code here.
-    NSLog(@"bounds: %@", NSStringFromRect(self.frame));
+//    NSLog(@"bounds: %@", NSStringFromRect(self.frame));
     
     NSBezierPath *path = [NSBezierPath bezierPath];
-    [path moveToPoint:NSMakePoint(0.0f, -5.0f)];
-    [path lineToPoint:NSMakePoint(5.0f, 0.0f)];
-    [path lineToPoint:NSMakePoint(0.0f, 5.0f)];
-    [path lineToPoint:NSMakePoint(-5.0f, 0.0f)];
+    [path moveToPoint:NSMakePoint(0.0f, -5.5f)];
+    [path lineToPoint:NSMakePoint(5.5f, 0.0f)];
+    [path lineToPoint:NSMakePoint(0.0f, 5.5f)];
+    [path lineToPoint:NSMakePoint(-5.5f, 0.0f)];
     [path closePath];
     path.lineWidth = 0;
     
@@ -51,8 +51,8 @@
             NSPoint point = NSMakePoint(NSMinX(rect), NSMidY(rect));
             [NSGraphicsContext saveGraphicsState];
             NSAffineTransform* transform = [NSAffineTransform transform];
-            [transform translateXBy:point.x yBy:point.y];
-            //    [transform translateXBy:point.x + 0.5f yBy:point.y + 0.5f];
+//            [transform translateXBy:point.x yBy:point.y];
+                [transform translateXBy:point.x - 0.5f yBy:point.y/* + 0.5f*/];
             [transform concat];
             
             [[NSColor whiteColor] setFill];
@@ -65,8 +65,8 @@
             NSPoint point = NSMakePoint(NSMaxX(rect), NSMidY(rect));
             [NSGraphicsContext saveGraphicsState];
             NSAffineTransform* transform = [NSAffineTransform transform];
-            [transform translateXBy:point.x yBy:point.y];
-            //    [transform translateXBy:point.x + 0.5f yBy:point.y + 0.5f];
+//            [transform translateXBy:point.x yBy:point.y];
+            [transform translateXBy:point.x - 0.5f yBy:point.y/* + 0.5f*/];
             [transform concat];
             
             [[NSColor whiteColor] setFill];
@@ -76,6 +76,11 @@
             [NSGraphicsContext restoreGraphicsState];
         }
     }
+    
+//    [[NSColor redColor] set];
+//    [NSBezierPath strokeLineFromPoint:NSMakePoint(100.0f, NSMinY(self.bounds))
+//                              toPoint:NSMakePoint(100.0f, NSMaxY(self.bounds))];
+//    NSLog(@"frame=%@ superView=%@", NSStringFromRect(self.frame), NSStringFromRect(self.superview.frame));
 }
 
 - (void)mouseDown:(NSEvent *)event {

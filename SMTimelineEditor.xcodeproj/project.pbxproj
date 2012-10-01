@@ -14,6 +14,7 @@
 		7664511B1613304D005FBF58 /* SMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7664511A1613304D005FBF58 /* SMAppDelegate.m */; };
 		7664511E1613304E005FBF58 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7664511C1613304E005FBF58 /* MainMenu.xib */; };
 		76645126161332E2005FBF58 /* SMElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 76645125161332E2005FBF58 /* SMElement.m */; };
+		7699EB6E16197AF900673C9C /* SMGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7699EB6D16197AF900673C9C /* SMGuideView.m */; };
 		769AB77416144ABF009398D8 /* SMTimelineTrackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769AB77316144ABF009398D8 /* SMTimelineTrackView.m */; };
 		769AB79E16148F3C009398D8 /* SMTimeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 769AB79D16148F3C009398D8 /* SMTimeline.m */; };
 		769AB7A11614904D009398D8 /* SMTimelineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 769AB7A01614904D009398D8 /* SMTimelineSegment.m */; };
@@ -40,6 +41,8 @@
 		7664511D1613304E005FBF58 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		76645124161332E2005FBF58 /* SMElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMElement.h; sourceTree = "<group>"; };
 		76645125161332E2005FBF58 /* SMElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMElement.m; sourceTree = "<group>"; };
+		7699EB6C16197AF900673C9C /* SMGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMGuideView.h; sourceTree = "<group>"; };
+		7699EB6D16197AF900673C9C /* SMGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMGuideView.m; sourceTree = "<group>"; };
 		769AB77216144ABF009398D8 /* SMTimelineTrackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTimelineTrackView.h; sourceTree = "<group>"; };
 		769AB77316144ABF009398D8 /* SMTimelineTrackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTimelineTrackView.m; sourceTree = "<group>"; };
 		769AB79C16148F3C009398D8 /* SMTimeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTimeline.h; sourceTree = "<group>"; };
@@ -127,6 +130,8 @@
 				769AB7AC1614A81B009398D8 /* SMDebugTableView.m */,
 				769AB7D91615C018009398D8 /* SMTimelineTableView.h */,
 				769AB7DA1615C018009398D8 /* SMTimelineTableView.m */,
+				7699EB6C16197AF900673C9C /* SMGuideView.h */,
+				7699EB6D16197AF900673C9C /* SMGuideView.m */,
 				769AB7D61615BE38009398D8 /* Images */,
 				7664510E1613304D005FBF58 /* Supporting Files */,
 			);
@@ -229,6 +234,7 @@
 				769AB7AD1614A81B009398D8 /* SMDebugTableView.m in Sources */,
 				769AB7B01614AAE4009398D8 /* SMTimelineView.m in Sources */,
 				769AB7DB1615C019009398D8 /* SMTimelineTableView.m in Sources */,
+				7699EB6E16197AF900673C9C /* SMGuideView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

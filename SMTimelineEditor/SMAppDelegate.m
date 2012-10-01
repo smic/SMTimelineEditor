@@ -10,6 +10,8 @@
 #import "SMElement.h"
 #import "SMTimeline.h"
 #import "SMTimelineSegment.h"
+#import "SMTimelineTableView.h"
+#import "SMGuideView.h"
 
 
 static NSString * const SMElementPropertyX = @"SMElementPropertyX";
@@ -23,7 +25,9 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
 @property (weak) IBOutlet NSOutlineView *outline;
 @property (weak) IBOutlet NSScrollView *tableScrollView;
 @property (weak) IBOutlet NSTableView *table;
+@property (weak) IBOutlet SMGuideView *guideView;
 
+@property (nonatomic) NSTimeInterval time;
 @property (strong, nonatomic) NSArray *elements;
 @property (strong, nonatomic) NSMutableIndexSet *expandedElements;
 
@@ -35,6 +39,8 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
 {
     // Insert code here to initialize your application
     [self startSynchronizing];
+    
+    self.time = 100.0;
     
     [NSRulerView registerUnitWithName:@"seconds" abbreviation:@"s" unitToPointsConversionFactor:100 stepUpCycle:@[@10.0f] stepDownCycle:@[@0.5f, @0.1f]];
     
@@ -52,9 +58,20 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
     rulerView.originOffset = 2.0f + 5.0f;
     
     [rulerView setClientView:self.tableScrollView.documentView];
-    NSRulerMarker *marker = [[NSRulerMarker alloc] initWithRulerView:rulerView markerLocation:100 image:[NSImage imageNamed:@"TimeMarker.png"] imageOrigin:NSMakePoint(6.0f, 0.0f)];
+    NSRulerMarker *marker = [[NSRulerMarker alloc] initWithRulerView:rulerView markerLocation:self.time image:[NSImage imageNamed:@"TimeMarker.png"] imageOrigin:NSMakePoint(5.0f, 0.0f)];
     marker.movable = YES;
     [rulerView addMarker:marker];
+    
+    SMGuideView *guideView = [[SMGuideView alloc] initWithFrame:self.tableScrollView.contentView.bounds];
+    guideView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    [guideView bind:@"time" toObject:self withKeyPath:@"time" options:nil];
+    [self.tableScrollView.contentView addSubview:guideView];
+    self.guideView = guideView;
+    
+    [self.tableScrollView.contentView setPostsBoundsChangedNotifications:YES];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(boundsDidChange:) name:NSViewBoundsDidChangeNotification object:self.tableScrollView.contentView];
+
     
     NSLog(@"Outline Scroll View: %p", self.outlineScrollView);
     NSLog(@"Table Scroll View: %p", self.tableScrollView);
@@ -449,6 +466,19 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
                                                         name:NSViewBoundsDidChangeNotification
                                                       object:synchronizedContentView];
     }
+}
+
+- (void)boundsDidChange:(NSNotification *)notification {
+    if (notification.object != self.tableScrollView.contentView) {
+        return;
+    }
+    NSLog(@"bounds=%@", NSStringFromRect(self.tableScrollView.contentView.bounds));
+    self.guideView.frame = self.tableScrollView.contentView.bounds;
+}
+
+- (void)timelineTableView:(SMTimelineTableView *)view didChangeTime:(NSTimeInterval)time {
+    self.time = time;
+    NSLog(@"Change time to %f", self.time);
 }
 
 @end
