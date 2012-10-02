@@ -23,6 +23,12 @@
 		769AB7B01614AAE4009398D8 /* SMTimelineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769AB7AF1614AAE4009398D8 /* SMTimelineView.m */; };
 		769AB7D81615BE39009398D8 /* TimeMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 769AB7D71615BE39009398D8 /* TimeMarker.png */; };
 		769AB7DB1615C019009398D8 /* SMTimelineTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769AB7DA1615C018009398D8 /* SMTimelineTableView.m */; };
+		76E3DC22161B2AEB00B04E20 /* seq-btn-play.png in Resources */ = {isa = PBXBuildFile; fileRef = 76E3DC1C161B2AEB00B04E20 /* seq-btn-play.png */; };
+		76E3DC23161B2AEB00B04E20 /* seq-btn-restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 76E3DC1D161B2AEB00B04E20 /* seq-btn-restart.png */; };
+		76E3DC24161B2AEB00B04E20 /* seq-btn-stepback.png in Resources */ = {isa = PBXBuildFile; fileRef = 76E3DC1E161B2AEB00B04E20 /* seq-btn-stepback.png */; };
+		76E3DC25161B2AEB00B04E20 /* seq-btn-stepforward.png in Resources */ = {isa = PBXBuildFile; fileRef = 76E3DC1F161B2AEB00B04E20 /* seq-btn-stepforward.png */; };
+		76E3DC26161B2AEB00B04E20 /* seq-btn-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 76E3DC20161B2AEB00B04E20 /* seq-btn-stop.png */; };
+		76E3DC27161B2AEB00B04E20 /* seq-next-seq.png in Resources */ = {isa = PBXBuildFile; fileRef = 76E3DC21161B2AEB00B04E20 /* seq-next-seq.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +64,12 @@
 		769AB7D71615BE39009398D8 /* TimeMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TimeMarker.png; sourceTree = "<group>"; };
 		769AB7D91615C018009398D8 /* SMTimelineTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTimelineTableView.h; sourceTree = "<group>"; };
 		769AB7DA1615C018009398D8 /* SMTimelineTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTimelineTableView.m; sourceTree = "<group>"; };
+		76E3DC1C161B2AEB00B04E20 /* seq-btn-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-play.png"; sourceTree = "<group>"; };
+		76E3DC1D161B2AEB00B04E20 /* seq-btn-restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-restart.png"; sourceTree = "<group>"; };
+		76E3DC1E161B2AEB00B04E20 /* seq-btn-stepback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-stepback.png"; sourceTree = "<group>"; };
+		76E3DC1F161B2AEB00B04E20 /* seq-btn-stepforward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-stepforward.png"; sourceTree = "<group>"; };
+		76E3DC20161B2AEB00B04E20 /* seq-btn-stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-stop.png"; sourceTree = "<group>"; };
+		76E3DC21161B2AEB00B04E20 /* seq-next-seq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-next-seq.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +165,12 @@
 		769AB7D61615BE38009398D8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				76E3DC1C161B2AEB00B04E20 /* seq-btn-play.png */,
+				76E3DC1D161B2AEB00B04E20 /* seq-btn-restart.png */,
+				76E3DC1E161B2AEB00B04E20 /* seq-btn-stepback.png */,
+				76E3DC1F161B2AEB00B04E20 /* seq-btn-stepforward.png */,
+				76E3DC20161B2AEB00B04E20 /* seq-btn-stop.png */,
+				76E3DC21161B2AEB00B04E20 /* seq-next-seq.png */,
 				769AB7D71615BE39009398D8 /* TimeMarker.png */,
 			);
 			path = Images;
@@ -214,6 +232,12 @@
 				766451181613304D005FBF58 /* Credits.rtf in Resources */,
 				7664511E1613304E005FBF58 /* MainMenu.xib in Resources */,
 				769AB7D81615BE39009398D8 /* TimeMarker.png in Resources */,
+				76E3DC22161B2AEB00B04E20 /* seq-btn-play.png in Resources */,
+				76E3DC23161B2AEB00B04E20 /* seq-btn-restart.png in Resources */,
+				76E3DC24161B2AEB00B04E20 /* seq-btn-stepback.png in Resources */,
+				76E3DC25161B2AEB00B04E20 /* seq-btn-stepforward.png in Resources */,
+				76E3DC26161B2AEB00B04E20 /* seq-btn-stop.png in Resources */,
+				76E3DC27161B2AEB00B04E20 /* seq-next-seq.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

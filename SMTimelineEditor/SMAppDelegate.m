@@ -472,7 +472,7 @@ static NSString * const SMElementPropertyHeight = @"SMElementPropertyHeight";
     if (notification.object != self.tableScrollView.contentView) {
         return;
     }
-    NSLog(@"bounds=%@", NSStringFromRect(self.tableScrollView.contentView.bounds));
+//    NSLog(@"bounds=%@", NSStringFromRect(self.tableScrollView.contentView.bounds));
     self.guideView.frame = self.tableScrollView.contentView.bounds;
 }
 
